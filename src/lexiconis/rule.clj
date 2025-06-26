@@ -3,6 +3,18 @@
             [lexiconis.specs :as spec]
             [lexiconis.dispatcher :as dispatcher]))
 
+(def op-map
+  {:eq =
+   :gt >
+   :lt <})
+
+(def key-map
+  {::spec/room ::spec/room-type
+   ::spec/time ::spec/time-input
+   ::spec/motion ::spec/motion
+   ::spec/lux-level ::spec/lux-level-input
+   ::spec/smoke ::spec/smoke})
+
 (defmacro defrule
   "Returns a function that is validated according to rule-spec. The function evaluates
   the rules and when it passes performs all the side effects that the rule defines."
@@ -12,7 +24,7 @@
       `(def ~name (fn [~input-sym]
                     (if (s/valid? ::spec/fact-spec ~input-sym)
                       (if (and ~@(for [[k v] (::spec/if body)]
-                                   `(= ~v (~k ~input-sym))))
+                                   `(((first ~v) op-map) ((key-map ~k) ~input-sym) (second ~v))))
                         (do
                           (println "Rule matched!")
                           (dispatcher/dispatch ~(::spec/then body)))
