@@ -5,7 +5,7 @@
 
 (s/def ::state #{:on :off :dim :send})
 
-(s/def ::time inst?)
+(s/def ::time int?)
 
 (s/def ::lux-level int?)
 
