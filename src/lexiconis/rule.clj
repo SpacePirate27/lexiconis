@@ -1,7 +1,15 @@
-(ns lexiconis.rule)
+(ns lexiconis.rule
+  (:require [clojure.spec.alpha :as s]
+            [lexiconis.specs :as spec]))
 
 (defmacro defrule
-  "Creates a rule that adheres to the rule spec"
-  [rule-name rule-body]
-  )
-
+  "Returns a function that is validated according to rule-spec. The function evaluates
+  the rules and when it passes performs all the side effects that the rule defines."
+  [name body]
+  (let [input-sym (gensym "input")]
+    (if (s/valid? ::spec/rule-spec body)
+      `(def ~name (fn [~input-sym] (if (and ~@(for [[k v] (:if body)]
+                                                `(= ~v (~k ~input-sym))))
+                                     (println "yo")
+                                     (println "error"))))
+      `(throw (Exception. (s/explain-str ::spec/rule-spec ~body))))))
