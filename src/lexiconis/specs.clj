@@ -13,13 +13,6 @@
 
 (s/def ::smoke boolean?)
 
-(s/def ::metric #{::time ::lux-level ::motion ::smoke})
-
-(s/def ::metric-value (s/or :time inst?
-                            :lux-level int?
-                            :motion boolean?
-                            :smoke boolean?))
-
 (s/def ::object #{::lights ::tv ::ac ::coffee-machine ::blinds ::gas-valve ::alarm ::notification})
 
 (s/def ::rule-id string?)
@@ -35,8 +28,5 @@
 
 (s/def ::rule-spec (s/keys :req [::rule-id ::if ::then]))
 
-(s/def ::data (s/map-of ::metric ::metric-value))
-
-(s/def ::metrics (s/coll-of ::data))
-
-(s/def ::fact-spec (s/keys :req [::room ::metrics]))
+(s/def ::fact-spec (s/keys :req [::room]
+                           :opt [::time ::lux-level ::motion ::smoke]))
