@@ -1,6 +1,7 @@
 (ns lexiconis.rule
   (:require [clojure.spec.alpha :as s]
-            [lexiconis.specs :as spec]))
+            [lexiconis.specs :as spec]
+            [lexiconis.dispatcher :as dispatcher]))
 
 (defmacro defrule
   "Returns a function that is validated according to rule-spec. The function evaluates
@@ -8,8 +9,9 @@
   [name body]
   (let [input-sym (gensym "input")]
     (if (s/valid? ::spec/rule-spec body)
-      `(def ~name (fn [~input-sym] (if (and ~@(for [[k v] (:if body)]
-                                                `(= ~v (~k ~input-sym))))
-                                     (println "yo")
-                                     (println "error"))))
+      `(def ~name (fn [~input-sym]
+                    (if (and ~@(for [[k v] (::spec/if body)]
+                                 `(= ~v (~k ~input-sym))))
+                      (dispatcher/dispatch ~(::spec/then body))
+                      (throw (Exception. "Rule failed for input")))))
       `(throw (Exception. (s/explain-str ::spec/rule-spec ~body))))))
