@@ -10,8 +10,12 @@
   (let [input-sym (gensym "input")]
     (if (s/valid? ::spec/rule-spec body)
       `(def ~name (fn [~input-sym]
-                    (if (and ~@(for [[k v] (::spec/if body)]
-                                 `(= ~v (~k ~input-sym))))
-                      (dispatcher/dispatch ~(::spec/then body))
-                      (throw (Exception. "Rule failed for input")))))
-      `(throw (Exception. (s/explain-str ::spec/rule-spec ~body))))))
+                    (if (s/valid? ::spec/fact-spec ~input-sym)
+                      (if (and ~@(for [[k v] (::spec/if body)]
+                                   `(= ~v (~k ~input-sym))))
+                        (do
+                          (println "Rule matched!")
+                          (dispatcher/dispatch ~(::spec/then body)))
+                        (println "Rule failed for input"))
+                      (println "Input validation failed. Invalid input" (s/explain-str ::spec/fact-spec ~input-sym)))))
+      `(println "Rule validation failed. Invalid rule. " (s/explain-str ::spec/rule-spec ~body)))))
