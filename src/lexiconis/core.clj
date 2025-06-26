@@ -1,6 +1,5 @@
 (ns lexiconis.core
-  (:require [clojure.spec.alpha :as s]
-            [lexiconis.rule :refer [defrule]]
+  (:require [lexiconis.rule :refer [defrule]]
             [lexiconis.specs :as spec]))
 
 (defrule sleep-time {::spec/rule-id "Sleep"
