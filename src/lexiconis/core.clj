@@ -4,19 +4,19 @@
 
 (defrule sleep-time {::spec/rule-id "Sleep"
                      ::spec/if      {::spec/room [:eq :bedroom]
-                                     ::spec/time [:gt 1750957200000]}
+                                     ::spec/time [:gt 1751033400000]}
                      ::spec/then    [{:ac :on}
                                      {:tv :off}
                                      {:lights :dim}]})
 
 (defrule morning-coffee {::spec/rule-id "Morning Coffee"
                          ::spec/if      {::spec/room [:eq :kitchen]
-                                         :spec/time  [:gt 1750897800000]}
+                                         :spec/time  [:gt 1750998600000]}
                          ::spec/then    [{:coffee-machine :on}]})
 
 (defrule blinding-lights {::spec/rule-id "Blinding Lights"
                           ::spec/if      {::spec/room      [:eq :hall]
-                                          ::spec/time      [:gt 1750919400000]
+                                          ::spec/time      [:gt 1751002800000]
                                           ::spec/lux-level [:gt 10000]}
                           ::spec/then    [{:blinds :off}]})
 
