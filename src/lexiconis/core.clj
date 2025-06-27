@@ -11,7 +11,7 @@
 
 (defrule morning-coffee {::spec/rule-id "Morning Coffee"
                          ::spec/if      {::spec/room [:eq :kitchen]
-                                         :spec/time  [:gt 1750998600000]}
+                                         ::spec/time [:gt 1750998600000]}
                          ::spec/then    [{:coffee-machine :on}]})
 
 (defrule blinding-lights {::spec/rule-id "Blinding Lights"
@@ -22,12 +22,12 @@
 
 (defrule no-tv {::spec/rule-id "No TV"
                 ::spec/if      {::spec/room   [:eq :hall]
-                                ::spec/motion false}
+                                ::spec/motion [:eq false]}
                 ::spec/then    [{:tv :off}]})
 
 (defrule holy-smokes {::spec/rule-id "Holy Smokes"
                       ::spec/if      {::spec/room  [:eq :kitchen]
-                                      ::spec/smoke true}
+                                      ::spec/smoke [:eq true]}
                       ::spec/then    [{:gas-valve :off}
                                       {:alarm :on}
                                       {:notification :send}]})
