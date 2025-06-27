@@ -1,6 +1,7 @@
 (ns lexiconis.dispatcher)
 
 (defmulti perform-action
+          "Performs actions after dispatching based on key of input map"
           (fn [m] (first (keys m))))
 
 (defmethod perform-action :lights
@@ -52,5 +53,6 @@
    :status true})
 
 (defn dispatch
+  "Calls perform action for all actions"
   [actions]
   (mapv perform-action actions))
