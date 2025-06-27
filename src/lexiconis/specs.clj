@@ -3,7 +3,7 @@
             [clojure.spec.gen.alpha :as gen]))
 
 (def start-of-day-ms 1750953000000)
-(def end-of-day-ms   1751039399999)
+(def end-of-day-ms 1751039399999)
 
 (s/def ::op #{:eq :lt :gt})
 
@@ -21,9 +21,13 @@
 
 (s/def ::lux-level-input int?)
 
-(s/def ::motion boolean?)
+(s/def ::motion (s/spec (s/cat :op ::op :value boolean?)))
 
-(s/def ::smoke boolean?)
+(s/def ::motion-input boolean?)
+
+(s/def ::smoke (s/spec (s/cat :op ::op :value boolean?)))
+
+(s/def ::smoke-input boolean?)
 
 (s/def ::object #{:lights :tv :ac :coffee-machine :blinds :gas-valve :alarm :notification})
 
@@ -41,10 +45,7 @@
 (s/def ::fact-spec
   (s/and
     (s/keys :req [::room-type]
-            :opt [::time-input ::lux-level-input ::motion ::smoke])
+            :opt [::time-input ::lux-level-input ::motion-input ::smoke-input])
     (fn [m]
       (some #(contains? m %)
-            [::time-input ::lux-level-input ::motion ::smoke]))))
-
-(s/def ::sleep-time-spec
-  (s/keys :req [::room-type ::time-input]))
+            [::time-input ::lux-level-input ::motion-input ::smoke-input]))))
