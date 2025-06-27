@@ -9,11 +9,11 @@
    :lt <})
 
 (def key-map
-  {::spec/room ::spec/room-type
-   ::spec/time ::spec/time-input
-   ::spec/motion ::spec/motion
+  {::spec/room      ::spec/room-type
+   ::spec/time      ::spec/time-input
+   ::spec/motion    ::spec/motion-input
    ::spec/lux-level ::spec/lux-level-input
-   ::spec/smoke ::spec/smoke})
+   ::spec/smoke     ::spec/smoke-input})
 
 (defmacro defrule
   "Returns a function that is validated according to rule-spec. The function evaluates
