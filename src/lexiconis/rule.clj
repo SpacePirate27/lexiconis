@@ -28,6 +28,12 @@
                         (do
                           (println "Rule matched!")
                           (dispatcher/dispatch ~(::spec/then body)))
-                        (println "Rule failed for input"))
-                      (println "Input validation failed. Invalid input" (s/explain-str ::spec/fact-spec ~input-sym)))))
-      `(println "Rule validation failed. Invalid rule. " (s/explain-str ::spec/rule-spec ~body)))))
+                        (do
+                          (println "Rule failed for input")
+                          {:rule :failed :status false}))
+                      (do
+                        (println "Input validation failed. Invalid input" (s/explain-str ::spec/fact-spec ~input-sym))
+                        {:input-validation :failed :status false}))))
+      `(do
+         (println "Rule validation failed. Invalid rule. " (s/explain-str ::spec/rule-spec ~body))
+         {:rule-validation :failed :status false}))))
