@@ -1,8 +1,7 @@
 (ns lexiconis.dispatcher)
 
 (defmulti perform-action
-          (fn [m]
-     (first (keys m))))
+          (fn [m] (first (keys m))))
 
 (defmethod perform-action :lights
   [m]

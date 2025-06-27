@@ -31,5 +31,3 @@
                       ::spec/then    [{:gas-valve :off}
                                       {:alarm :on}
                                       {:notification :send}]})
-
-
