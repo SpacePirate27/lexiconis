@@ -1,17 +1,18 @@
 (ns lexiconis.specs
-  (:require [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            [clojure.spec.gen.alpha :as gen]))
 
 (s/def ::op #{:eq :lt :gt})
 
 (s/def ::room-type #{:bedroom :hall :kitchen})
 
-(s/def ::room (s/cat :op ::op :room-type ::room-type))
+(s/def ::room (s/spec (s/cat :op ::op :room-type ::room-type)))
 
 (s/def ::state #{:on :off :dim :send})
 
-(s/def ::time (s/cat :op ::op :value int?))
+(s/def ::time (s/spec (s/cat :op ::op :value int?)))
 
-(s/def ::lux-level (s/cat :op ::op :value int?))
+(s/def ::lux-level (s/spec (s/cat :op ::op :value int?)))
 
 (s/def ::time-input int?)
 
@@ -28,7 +29,7 @@
 (s/def ::if (s/keys :req [::room]
                     :opt [::time ::lux-level ::motion ::smoke]))
 
-(s/def ::action (s/map-of ::object ::state))
+(s/def ::action (s/map-of ::object ::state :max-count 1 :min-count 1))
 
 (s/def ::then (s/coll-of ::action))
 
