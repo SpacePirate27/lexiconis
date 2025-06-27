@@ -50,7 +50,6 @@
   (testing "Given an invalid input fact, input validation should fail"
     (is (= {:input-validation :failed :status false} (core/no-tv {::spec/a :b})))))
 
-
 (deftest holy-smokes-test
   (testing "Given a valid holy-smokes fact, actions are performed"
     (is (= [{:action :gas-valve :status true}
